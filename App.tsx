@@ -29,6 +29,8 @@ import {
   BufferEmitter,
 } from '@picovoice/react-native-voice-processor';
 
+import { Audio } from 'expo-av';
+
 enum UIState {
   loading,
   init,
@@ -225,6 +227,14 @@ export default class App extends Component<Props, State> {
     }
   }
 
+  async  playSound() {
+    console.log('Loading Sound');
+    const { sound } = await Audio.Sound.createAsync(require('./assets/10MinAlert.mp3'));
+
+    console.log('Playing Sound');
+    await sound.playAsync();
+  }
+
   checkBottom({
     layoutMeasurement,
     contentOffset,
@@ -287,6 +297,14 @@ export default class App extends Component<Props, State> {
             disabled={disabled}>
             <Text style={styles.buttonText}>
               {this.state.appState === UIState.recording ? 'Stop' : 'Start'}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            onPress={() => this._toggleListening()}>
+            <Text style={styles.buttonText}>
+              Play Sound
             </Text>
           </TouchableOpacity>
         </View>
