@@ -2,8 +2,10 @@
   "name": "pico-voice-expo",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
+  "slug": "PicoVoiceExpo",
+  "scheme": "picovoice",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --dev-client",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"
