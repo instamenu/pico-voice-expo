@@ -29,6 +29,7 @@ import {
   BufferEmitter,
 } from '@picovoice/react-native-voice-processor';
 
+import { Asset } from 'expo-asset';
 import { Audio } from 'expo-av';
 
 enum UIState {
@@ -46,6 +47,10 @@ type State = {
   transcription: string;
   isBottom: boolean;
 };
+
+const paramAssets = Asset.loadAsync([
+  require('./assets/cheetah_params.pv'),
+]);
 
 export default class App extends Component<Props, State> {
   _cheetah?: Cheetah;
@@ -82,9 +87,10 @@ export default class App extends Component<Props, State> {
 
   async init() {
     try {
+      const params = (await paramAssets).map((asset) => asset.localUri?.substring(7));
       this._cheetah = await Cheetah.create(
         this._accessKey,
-        'cheetah_params.pv',
+        params[0],
         {enableAutomaticPunctuation: true},
       );
       this._voiceProcessor = VoiceProcessor.getVoiceProcessor(
@@ -302,7 +308,7 @@ export default class App extends Component<Props, State> {
 
           <TouchableOpacity
             style={styles.buttonStyle}
-            onPress={() => this._toggleListening()}>
+            onPress={() => this.playSound()}>
             <Text style={styles.buttonText}>
               Play Sound
             </Text>
